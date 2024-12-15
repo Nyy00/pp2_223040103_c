@@ -1,8 +1,9 @@
-package Membership.src.model;
+package Pertemuan8_9.MembershipORM.src.model;
 
 public class Member {
     private String id;
     private String nama;
+    private String jenisMemberId;
     private JenisMember jenisMember;
 
     public void setId(String id) {
@@ -21,11 +22,20 @@ public class Member {
         return nama;
     }
 
-    public void setJenisMember(JenisMember jenisMember) {
-        this.jenisMember = jenisMember;
+    public void setJenisMemberId(String jenisMemberId) {
+        this.jenisMemberId = jenisMemberId;
+    }
+
+    public String getJenisMemberId() {
+        return jenisMemberId;
     }
 
     public JenisMember getJenisMember() {
         return jenisMember;
     }
+
+    public void setJenisMember(JenisMember jenisMember) {
+        this.jenisMember = jenisMember;
+    }
+
 }

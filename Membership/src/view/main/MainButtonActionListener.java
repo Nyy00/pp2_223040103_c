@@ -2,7 +2,7 @@ package Membership.src.view.main;
 
 import java.awt.event.*;
 
-public class MainButtonActionListener implements ActionListener{
+public class MainButtonActionListener implements ActionListener {
     private MainFrame mainFrame;
 
     public MainButtonActionListener(MainFrame mainFrame){
@@ -10,11 +10,11 @@ public class MainButtonActionListener implements ActionListener{
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == mainFrame.getButtonJenisMember()) {
+    public void actionPerformed(ActionEvent e){
+        if (e.getSource() == mainFrame.getButtonJenisMember()){
             mainFrame.showJenisMemberFrame();
         }else {
             mainFrame.showMemberFrame();
         }
-}
+    }
 }

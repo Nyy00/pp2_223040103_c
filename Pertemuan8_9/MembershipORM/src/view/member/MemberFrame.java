@@ -1,14 +1,24 @@
-package Membership.src.view.member;
+package Pertemuan8_9.MembershipORM.src.view.member;
 
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.table.*;
-import java.util.*;
-import Membership.src.model.*;
-import Membership.src.dao.MemberDao;
-import Membership.src.dao.JenisMemberDao;
+import dao.JenisMemberDao;
+import dao.MemberDao;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import model.JenisMember;
+import model.Member;
+import view.memberdetail.MemberDetailFrame;
 
 public class MemberFrame extends JFrame {
+
     private List<JenisMember> jenisMemberList;
     private List<Member> memberList;
     private JTextField textFieldNama;
@@ -19,20 +29,19 @@ public class MemberFrame extends JFrame {
 
     public MemberFrame(MemberDao memberDao, JenisMemberDao jenisMemberDao) {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         this.memberDao = memberDao;
         this.jenisMemberDao = jenisMemberDao;
 
         this.memberList = this.memberDao.findAll();
         this.jenisMemberList = this.jenisMemberDao.findAll();
 
-        JLabel labelInput = new JLabel("Nama:");
+        JLabel labelInput = new JLabel("Nama: ");
         labelInput.setBounds(15, 40, 350, 10);
 
         textFieldNama = new JTextField();
         textFieldNama.setBounds(15, 60, 350, 30);
 
-        JLabel labelJenis = new JLabel("Jenis Member:");
+        JLabel labelJenis = new JLabel("Jenis Member: ");
         labelJenis.setBounds(15, 100, 350, 10);
 
         comboJenis = new JComboBox();
@@ -43,36 +52,47 @@ public class MemberFrame extends JFrame {
 
         javax.swing.JTable table = new JTable();
         JScrollPane scrollableTable = new JScrollPane(table);
-        scrollableTable.setBounds(15, 220, 350, 200);
+        scrollableTable.setBounds(15, 210, 350, 200);
 
         tableModel = new MemberTableModel(memberList);
         table.setModel(tableModel);
 
-        JenisMemberButtonSimpanActionListener actionListener = new JenisMemberButtonSimpanActionListener(this, memberDao);
+        MemberButtonSimpanActionListener actionListener = new MemberButtonSimpanActionListener(this, memberDao);
 
         button.addActionListener(actionListener);
+
+        table.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int row = table.getSelectedRow();
+                    Member selectedMember = memberList.get(row);
+                    MemberDetailFrame detailFrame = new MemberDetailFrame(selectedMember, memberDao, jenisMemberDao);
+                    detailFrame.populateComboJenis();
+                    detailFrame.setVisible(true);
+                }
+            }
+        });
 
         this.add(button);
         this.add(textFieldNama);
         this.add(labelInput);
+        this.add(scrollableTable);
         this.add(labelJenis);
         this.add(comboJenis);
-        this.add(scrollableTable);
 
         this.setSize(400, 500);
         this.setLayout(null);
     }
 
-    @SuppressWarnings("unchecked")
     public void populateComboJenis() {
-        this.jenisMemberList = jenisMemberDao.findAll();
+        this.jenisMemberList = this.jenisMemberDao.findAll();
         comboJenis.removeAllItems();
         for (JenisMember jenisMember : this.jenisMemberList) {
             comboJenis.addItem(jenisMember.getNama());
         }
     }
 
-    public String getNama() {
+    public String getName() {
         return textFieldNama.getText();
     }
 

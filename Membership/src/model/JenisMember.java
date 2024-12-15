@@ -7,7 +7,7 @@ public class JenisMember {
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public String getId() {
         return id;
     }
@@ -19,5 +19,4 @@ public class JenisMember {
     public String getNama() {
         return nama;
     }
-
 }
